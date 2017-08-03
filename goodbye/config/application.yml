@@ -1,1 +1,3 @@
+logging:
+  config: classpath:logback-spring.xml
 messageForUser: "It's probably something you did."

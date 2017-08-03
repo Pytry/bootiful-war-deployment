@@ -23,9 +23,9 @@ public class GoodbyeServletInitializer extends SpringBootServletInitializer{
     }
 
     @Scheduled(fixedRate = 2000)
-    public static void sayGoodbyeTo(){
+    public void sayGoodbyeTo(){
 
-        log.info("Goodbye !");
+        log.info(message + " Goodbye!");
     }
 
     @Override

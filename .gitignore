@@ -1,9 +1,10 @@
 apache-tomcat-8.0.45/logs/
 apache-tomcat-8.0.45/webapps/
 apache-tomcat-8.0.45/work/
-target/
 goodbye/target/
 hello/target/
+target/
+logs/
 
 !.mvn/wrapper/maven-wrapper.jar
 

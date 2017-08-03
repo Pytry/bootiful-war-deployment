@@ -23,9 +23,9 @@ public class HelloServletInitializer extends SpringBootServletInitializer{
     }
 
     @Scheduled(fixedRate = 2000)
-    public static void sayHelloTo(){
+    public void sayHelloTo(){
 
-        log.info("Hello !");
+        log.info("Hello! " + message);
     }
 
     @Override
