@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+  <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+    <Target>System.out</Target>
+    <encoder>
+      <pattern>%date %thread %level : %logger : %contextName - %message%n</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <!--See also http://logback.qos.ch/manual/appenders.html#RollingFileAppender-->
+    <File>./target/logs/hello.log</File>
+    <prudent>true</prudent>
+    <append>true</append>
+    <encoder>
+      <pattern>%date %thread %level : %logger : %contextName - %message%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+      <fileNamePattern>./target/logs/hello.log.%d.%i</fileNamePattern>
+      <maxHistory>100</maxHistory>
+      <totalSizeCap>5GB</totalSizeCap>
+      <MaxFileSize>50MB</MaxFileSize>
+    </rollingPolicy>
+  </appender>
+
+  <!--<logger level="DEBUG">-->
+    <!--<appender-ref ref="file"/>-->
+  <!--</logger>-->
+
+  <root level="INFO">
+    <appender-ref ref="stdout"/>
+    <appender-ref ref="file"/>
+  </root>
+
+
+
+
+</configuration>
