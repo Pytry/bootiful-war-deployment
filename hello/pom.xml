@@ -15,15 +15,13 @@
   <packaging>war</packaging>
 
   <name>hello</name>
-  <description>Demo project for Spring Boot</description>
+  <description>
+    Basically the same as Goodbye, but in modes of diaspora.
+    This is used just so I can have two applications
+    deployed to Tomcat.
+  </description>
 
-  <dependencies>
-    <dependency>
-      <groupId>com.example</groupId>
-      <artifactId>servlet-initializer</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
-    </dependency>
-  </dependencies>
+  <dependencies/>
 
   <build>
     <finalName>hello</finalName>
@@ -31,69 +29,6 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <excludes>
-            <exclude>**/*IT.java</exclude>
-            <exclude>**/*ITCase.java</exclude>
-            <exclude>**/*IntegrationTest.java</exclude>
-            <exclude>**/*IntegrationTests.java</exclude>
-          </excludes>
-          <useSystemClassLoader>false</useSystemClassLoader>
-          <argLine>
-            -Dxitikit.config.location=${project.parent.basedir}\config
-          </argLine>
-        </configuration>
-        <executions>
-          <execution>
-            <id>unit-test</id>
-            <goals>
-              <goal>test</goal>
-            </goals>
-            <configuration>
-              <excludes>
-                <exclude>**/*IT.java</exclude>
-                <exclude>**/*ITCase.java</exclude>
-                <exclude>**/*IntegrationTest.java</exclude>
-                <exclude>**/*IntegrationTests.java</exclude>
-              </excludes>
-              <useSystemClassLoader>false</useSystemClassLoader>
-              <argLine>
-                -Dxitikit.config.location=${project.parent.basedir}\config
-              </argLine>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-failsafe-plugin</artifactId>
-        <configuration>
-          <argLine>
-            -Dxitikit.config.location=${project.parent.basedir}\config
-          </argLine>
-        </configuration>
-        <executions>
-          <execution>
-            <id>integration-test</id>
-            <goals>
-              <goal>integration-test</goal>
-            </goals>
-            <configuration>
-              <includes>
-                <include>**/*IT.class</include>
-                <include>**/*IT.class</include>
-                <include>**/*ITCase.class</include>
-                <include>**/*IntegrationTest.class</include>
-                <include>**/*IntegrationTests.class</include>
-              </includes>
-              <argLine>
-                -Dxitikit.config.location=${project.parent.basedir}\config
-              </argLine>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>

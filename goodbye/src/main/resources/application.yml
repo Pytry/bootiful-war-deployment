@@ -1,5 +1,3 @@
 spring:
   application:
     name: goodbye
-logging:
-  config: classpath:logback-spring.xml
