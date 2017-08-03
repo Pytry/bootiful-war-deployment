@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-
+  <!--For Testing Only. Do NOT put any logging configuration into the main/resources folder.-->
   <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
     <Target>System.out</Target>
     <encoder>
