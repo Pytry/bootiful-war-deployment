@@ -6,9 +6,9 @@ Tomcat instance, and still have individualized external application configuratio
 **tldr;** Just create a custom context.xml for each war application, and have it/them declare and load the 
 application.yml and logback-spring.xml onto the classpath for _that war only_.
  
-This solution is simple, non-invasive (no coding) and does not rely on anything in Spring. 
-It only uses the standard servlet specification implementation from whichever container you are 
-using for deployments. 
+This solution is simple, non-invasive (no coding), and does not rely on anything in Spring. That means that
+aside from the fact that you are deploying a 'war' file, you can take full advantage of everything 
+that Spring Boot has to offer.
 
 **Example XML for 'conf/Catalina/localhost/hello.xml':**
 
@@ -37,7 +37,7 @@ To really understand what you have to do, first you have to understand what __no
     put any 'logging.*' values inside of it, nor should logback XML ever be placed in the 'main/resources' folders. 
     If the configuration can or should be changed by operations or depending on whichever profile or environment it 
     pertains to, then do not put default values inside the war. This "best practice" makes it easier to pinpoint errors
-    that caused by invalid properties.  
+    that are caused by invalid properties.  
     - For the purposes of **testing only**, you can and should put the required configuration inside of the 
     test/resources folder.
     
@@ -64,7 +64,7 @@ To really understand what you have to do, first you have to understand what __no
 
 You will need to perform the following steps for each war deployed to Tomcat.
 
-1. Under "${catalina.home}/conf/Catalina/${hostname}/" create an XML file named after the application context
+Under "${catalina.home}/conf/Catalina/${hostname}/" create an XML file named after the application context
    of the war after it has been deployed. 
    - This file will be the standard 'context.xml', but since you have deployed it as directed above, it will only be applied
    to the single war application isntead of everything in the JVM.
@@ -72,101 +72,116 @@ You will need to perform the following steps for each war deployed to Tomcat.
       "${catalina.home}/webapps" (or wherever you have your appBase) on your localhost, then the corresponding XML 
       file will be "${catalina.home}/conf/Catalina/localhost/**hello.xml**". Below is an example of the bare-minimum 
       xml you will need to include.
+
       
     <?xml version='1.0' encoding='utf-8'?>
     <Context>
     </Context>
 
-1. Tomcat will need to know where it is getting the files and classes for the application that this context applies. In 
-the new hello.xml file, you will need to indicate from where the base directory of the documents are going to get loaded. 
+
+Tomcat will need to know where it is getting the files and classes for the application that this context applies. In 
+  the new hello.xml file, you will need to indicate from where the base directory of the documents are going to get loaded. 
   - The document base value is placed in the 'docBase' attribute of the main '<Context>' node.
   - This will be a relative path from the appbase that has been configured for your Tomcat, which will be the 
   'webapps' folder under CATALINA_HOME if you have not changed anything in the default/root configuration, and it 
   needs to point to your war file.  
-  - Example:
+
 
     <?xml version='1.0' encoding='utf-8'?>
-    <Context **docBase="hello.war"**>
+    <Context docBase="hello.war">
     </Context>
 
-1. Tomcat also needs to know how the application is being deployed, i.e., what it's applicationContext will be inside 
-of the webapps/appBase directory.
+
+Tomcat also needs to know how the application is being deployed, i.e., what it's applicationContext will be inside 
+  of the webapps/appBase directory.
   - This will need to be placed in the 'path' attribute of the '<Context>' node.
 
+
     <?xml version='1.0' encoding='utf-8'?>
-    <Context docBase="hello.war" **path="hello"**>      
+    <Context docBase="hello.war" path="hello">      
     </Context>
+
  
-1. Next, we need to add some resource loaders that will add our external configuration files to the classpath of our 
-application.
+Next, we need to add some resource loaders that will add our external configuration files to the classpath of our 
+  application.
   - There are various resource loaders, but for this use case just use the StandardRoot web resource loader.
-  - Example:
+
    
     <?xml version='1.0' encoding='utf-8'?>
     <Context docBase="hello.war" path="hello">
-      **<Resources className="org.apache.catalina.webresources.StandardRoot">
-      </Resources>**
+      <Resources className="org.apache.catalina.webresources.StandardRoot">
+      </Resources>
     </Context>
 
-1. Now define the resources you need to load inside the '<Resources>' element.
+
+Now define the resources you need to load inside the '<Resources>' element.
   - Because these resources need to be loaded before logging is configured, use '<PreResources>' to hold the resource 
   information
+
 
     <?xml version='1.0' encoding='utf-8'?>
     <Context docBase="hello.war" path="hello">
       <Resources className="org.apache.catalina.webresources.StandardRoot">
-        **<PreResources/>**
+        <PreResources/>
       </Resources>
     </Context>
+
          
-  - You can specify multiple resources or locations, but it's simpler if you just have one directory location 
+You can specify multiple resources or locations, but it's simpler if you just have one directory location 
   resource configured where you can add all the files in a single app-specific directory. For this, use the
   'org.apache.catalina.webresources.DirResourceSet' as the className for the '<PreResources>' node.
+
   
     <?xml version='1.0' encoding='utf-8'?>
     <Context docBase="hello.war" path="hello">
       <Resources className="org.apache.catalina.webresources.StandardRoot">
-        <PreResources **className="org.apache.catalina.webresources.DirResourceSet"**/>
+        <PreResources className="org.apache.catalina.webresources.DirResourceSet"/>
       </Resources>
     </Context>
+
     
-  - Add the 'internalPath' attribute,  an absolute unix path that determines the path inside of the classpath needed
+Add the 'internalPath' attribute,  an absolute unix path that determines the path inside of the classpath needed
    to load the resource. This does not include the file or resource name.
+
 
     <?xml version='1.0' encoding='utf-8'?>
     <Context docBase="hello.war" path="hello">
       <Resources className="org.apache.catalina.webresources.StandardRoot">
         <PreResources className="org.apache.catalina.webresources.DirResourceSet"
-                      **internalPath="/"**>
+                      internalPath="/">
       </Resources>
     </Context>
+
        
-  - Indicate where the resource will be added inside of the web application with the 'webAppMount' attribute. This
+Indicate where the resource will be added inside of the web application with the 'webAppMount' attribute. This
   attributes value will (likely) always be '/WEB-INF/classes'.
+
 
     <?xml version='1.0' encoding='utf-8'?>
     <Context docBase="hello.war" path="hello">
       <Resources className="org.apache.catalina.webresources.StandardRoot">
         <PreResources className="org.apache.catalina.webresources.DirResourceSet"
                       internalPath="/"
-                      **webAppMount="/WEB-INF/classes"**/>
+                      webAppMount="/WEB-INF/classes"/>
       </Resources>
     </Context>
+
       
-  - Add a 'base' attribute with a directory path value for the directory that the 'DirResourceSet' will add to 
+Add a 'base' attribute with a directory path value for the directory that the 'DirResourceSet' will add to 
   the classpath.
+
   
     <?xml version='1.0' encoding='utf-8'?>
     <Context docBase="hello.war" path="hello">
       <Resources className="org.apache.catalina.webresources.StandardRoot">
-        <PreResources **base="hello/config"**
+        <PreResources base="hello/config"
                       className="org.apache.catalina.webresources.DirResourceSet"
                       internalPath="/"
                       webAppMount="/WEB-INF/classes"/>
       </Resources>
     </Context>
-      
 
+      
 #### Done!
 
 
