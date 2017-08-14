@@ -1,3 +1,3 @@
 logging:
-  config: classpath:logback-spring.xml
+  config: file:\\\\servername\\hello\\config\\logback-spring.xml
 messageForUser: "Dance monkey ... DANCE I SAY!!"
