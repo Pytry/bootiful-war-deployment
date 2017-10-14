@@ -12,25 +12,35 @@ import org.springframework.scheduling.annotation.Scheduled;
 @SpringBootApplication
 @EnableScheduling
 @Slf4j
-public class GoodbyeServletInitializer extends SpringBootServletInitializer{
+public class GoodbyeServletInitializer
+    extends SpringBootServletInitializer
+{
 
-    @Value("${messageForUser}")
-    private String message;
+  @Value("${messageForUser}")
+  private String message;
 
-    public static void main(String[] args){
+  @Value("${canWeBuildIt:'No!'}")
+  private String canWeBuildIt;
 
-        SpringApplication.run(GoodbyeServletInitializer.class, args);
-    }
+  public static void main(String[] args) {
 
-    @Scheduled(fixedRate = 2000)
-    public void sayGoodbyeTo(){
+    SpringApplication.run(GoodbyeServletInitializer.class, args);
+  }
 
-        log.info(message + " Goodbye!");
-    }
+  @Scheduled(fixedRate = 2000)
+  public void sayGoodbyeTo() {
 
-    @Override
-    public SpringApplicationBuilder configure(SpringApplicationBuilder application){
+    log.info(message + " Goodbye!");
+  }
 
-        return application.sources(GoodbyeServletInitializer.class);
-    }
+  @Override
+  public SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+
+    log.info(
+        "\n*********************\n" +
+            "Can we build it?\n" +
+            canWeBuildIt +
+            "\n*********************\n");
+    return application.sources(GoodbyeServletInitializer.class);
+  }
 }

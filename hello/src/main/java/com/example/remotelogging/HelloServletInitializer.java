@@ -6,31 +6,42 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
 @SpringBootApplication
 @EnableScheduling
 @Slf4j
-public class HelloServletInitializer extends SpringBootServletInitializer{
+public class HelloServletInitializer
+    extends SpringBootServletInitializer
+{
 
-    @Value("${messageForUser}")
-    private String message;
+  @Value("${messageForUser}")
+  private String message;
 
-    public static void main(String[] args){
+  @Value("${whatDoesTheFoxSay:'No body knows.'}")
+  private String whatDoesTheFoxSay;
 
-        SpringApplication.run(HelloServletInitializer.class, args);
-    }
+  public static void main(String[] args) {
 
-    @Scheduled(fixedRate = 2000)
-    public void sayHelloTo(){
+    SpringApplication.run(HelloServletInitializer.class, args);
+  }
 
-        log.info("Hello! " + message);
-    }
+  @Scheduled(fixedRate = 2000)
+  public void sayHelloTo() {
 
-    @Override
-    public SpringApplicationBuilder configure(SpringApplicationBuilder application){
+    log.info("Hello! " + message);
+  }
 
-        return application.sources(HelloServletInitializer.class);
-    }
+  @Override
+  public SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+
+    log.info(
+        "\n*********************\n" +
+            "What does the fox say?\n" +
+            whatDoesTheFoxSay +
+            "\n*********************\n");
+    return application.sources(HelloServletInitializer.class);
+  }
 }

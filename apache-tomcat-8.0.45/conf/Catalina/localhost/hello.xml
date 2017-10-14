@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <Context docBase="hello.war" path="hello">
   <Resources className="org.apache.catalina.webresources.StandardRoot">
-    <PreResources base="hello/config"
+    <PreResources base="hello\\config"
                   className="org.apache.catalina.webresources.DirResourceSet"
                   internalPath="/"
                   webAppMount="/WEB-INF/classes"/>
