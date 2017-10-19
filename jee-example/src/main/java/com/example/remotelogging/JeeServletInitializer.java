@@ -6,32 +6,30 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 
-@SpringBootApplication
 @Slf4j
+@SpringBootApplication
 public class JeeServletInitializer extends SpringBootServletInitializer{
 
-  @Value("${messageForUser}")
-  private String message;
+    @Value("${messageForUser}")
+    private String message;
 
-  @Value("${whatDoesTheFoxSay:'No body knows.'}")
-  private String whatDoesTheFoxSay;
+    @Value("${whatDoesTheFoxSay:'No body knows.'}")
+    private String whatDoesTheFoxSay;
 
-  public static void main(String[] args) {
+    public static void main(String[] args){
 
-    SpringApplication.run(JeeServletInitializer.class, args);
-  }
+        SpringApplication.run(JeeServletInitializer.class, args);
+    }
 
-  @Override
-  public SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+    @Override
+    public SpringApplicationBuilder configure(SpringApplicationBuilder application){
 
-    log.info(
-        "\n*********************\n" +
-            "What does the fox say?\n" +
-            whatDoesTheFoxSay +
-            "\n*********************\n");
-    return application.sources(JeeServletInitializer.class);
-  }
+        log.info(
+            "\n*********************\n" +
+                "What does the fox say?\n" +
+                whatDoesTheFoxSay +
+                "\n*********************\n");
+        return application.sources(JeeServletInitializer.class);
+    }
 }
