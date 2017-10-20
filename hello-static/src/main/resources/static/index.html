@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <title>Hi! You should change me.</title>
+  <link href="/static/css/example.css" type="text/css" rel="stylesheet"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script>
+      $(document).ready(function(){
+
+          $.get("/api/v1/message",
+              function(data){
+                  var $message = $("#message");
+                  $message.html(data);
+                  $message.show();
+              });
+      });
+  </script>
+</head>
+<body class="my-center">
+<div id="content" class="my-center">
+  <h1 id="message" style="display: none;" class="my-center"></h1>
+</div>
+</body>
+</html>

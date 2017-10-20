@@ -28,6 +28,7 @@
     <module>hello</module>
     <module>goodbye</module>
     <module>jee-example</module>
+    <module>hello-static</module>
   </modules>
 
   <dependencyManagement>

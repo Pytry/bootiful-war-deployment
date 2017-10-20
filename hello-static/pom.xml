@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.example</groupId>
+    <artifactId>bootiful-war-deployment</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+
+  <groupId>com.example</groupId>
+  <artifactId>hello-static</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>war</packaging>
+
+  <name>hello-static</name>
+  <description>
+    Basically the same as Goodbye, but in modes of diaspora.
+    This is used just so I can have two applications
+    deployed to Tomcat.
+  </description>
+
+  <dependencies/>
+
+  <build>
+    <finalName>hello-static</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
