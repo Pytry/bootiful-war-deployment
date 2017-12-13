@@ -1,4 +1,4 @@
-package com.example.remotelogging;
+package com.example.bootifulwar;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
